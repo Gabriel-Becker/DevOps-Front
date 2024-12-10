@@ -1,0 +1,39 @@
+name: Deploy React App with Vite to Github Pages
+
+on:
+  push:
+    branches:
+      - main #Defina sua branch principal (padrão) para deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Utilizando a última versão do Ubuntu para rodar os jobs
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3 #Faz o checkout do código no repositório
+
+      - name: Configurar o Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  #Defina a versão do Node.js que seu projeto utiliza
+
+      - name: Instalar dependências
+        run: npm install #Instala as dependências do projeto
+
+      - name: Build da aplicação com Vite
+        run: npm run build  #Este comando vai gerar a versão de produção da aplicação, usando Vite
+
+  deploy:
+    runs-on: ubuntu-latest #Rodando em uma máquina Ubuntu para o deploy
+    needs: build  #O job de deploy só será executado após a conclusão do job de build
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3 #Faz novamente o checkout do código no repositório
+
+      - name: Deploy para o Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEN }} #Token de autenticação para o GitHub Pages
+          publish_dir: ./dist  #Diretório onde o Vite coloca os arquivos de produção prontos para deploy
