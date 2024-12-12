@@ -9,9 +9,11 @@ function Message() {
         setMessage(event.target.value);
     };
 
+
+    // https://devops-back-txi2.onrender.com
     const fetchHello = async () => {
         try {
-            const response = await fetch('https://recuperacao.onrender.com/hello/hello');
+            const response = await fetch('https://devops-back-txi2.onrender.com/hello/hello');
             const data = await response.text();
             setEchoMessage(data);
         } catch (error) {
@@ -22,7 +24,7 @@ function Message() {
 
     const sendEcho = async () => {
         try {
-            const response = await fetch('https://recuperacao.onrender.com/hello/echo', {
+            const response = await fetch('https://devops-back-txi2.onrender.com/hello/echo', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
